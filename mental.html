@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            text-align: center;
+            margin: 20px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #1f1f1f;
+            color: #ffffff;
+            border: 1px solid #3a3a3a;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #3a3a3a;
+        }
+        #quiz, #results {
+            display: none;
+            border: 1px solid #3a3a3a;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px auto;
+            width: 300px;
+        }
+        #question {
+            margin: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mental Health Quiz</h1>
+    <button onclick="startQuiz()">Start Quiz</button>
+
+    <div id="quiz">
+        <div id="question"></div>
+        <div id="options"></div>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        const questions = [
+            {
+                question: "Do you often feel overwhelmed by your emotions?",
+                options: ["Yes", "No"],
+                answer: "Yes"
+            },
+            {
+                question: "Have you lost interest in activities you used to enjoy?",
+                options: ["Yes", "No"],
+                answer: "Yes"
+            },
+            {
+                question: "Do you find it hard to concentrate or make decisions?",
+                options: ["Yes", "No"],
+                answer: "Yes"
+            },
+            {
+                question: "Do you feel anxious or restless often?",
+                options: ["Yes", "No"],
+                answer: "Yes"
+            },
+            {
+                question: "Have you experienced changes in your sleeping patterns?",
+                options: ["Yes", "No"],
+                answer: "Yes"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function startQuiz() {
+            document.getElementById("quiz").style.display = "block";
+            document.getElementById("results").style.display = "none";
+            currentQuestion = 0;
+            score = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const questionObj = questions[currentQuestion];
+            document.getElementById("question").innerText = questionObj.question;
+            const optionsDiv = document.getElementById("options");
+            optionsDiv.innerHTML = ''; // Clear previous options
+
+            questionObj.options.forEach(option => {
+                const button = document.createElement("button");
+                button.innerText = option;
+                button.onclick = () => submitAnswer(option);
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        function submitAnswer(answer) {
+            const correctAnswer = questions[currentQuestion].answer;
+            if (answer === correctAnswer) {
+                score++;
+            }
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById("quiz").style.display = "none";
+            document.getElementById("results").innerText = `You answered "${score}" out of ${questions.length} positively. Reflect on your responses and consider seeking support if needed.`;
+            document.getElementById("results").style.display = "block";
+        }
+    </script>
+</body>
+</html>
